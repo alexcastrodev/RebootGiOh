@@ -2,7 +2,7 @@
 set -euo pipefail
 
 COMPOSE_FILE=".ci/stack.yml"
-STACK_NAME="deck-agent"
+STACK_NAME="deck"
 ENV_PATH="/mnt/ssd/@docker/deck-agent/.env"
 
 set -a
