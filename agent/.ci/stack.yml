@@ -25,7 +25,7 @@ services:
       - MYSQL_PASSWORD=${DB_PASS}
     volumes:
       - type: bind
-        source: /mnt/ssd/@docker/deck-agent/mysql
+        source: /mnt/ssd/@docker/rebookondeck/db
         target: /var/lib/mysql
     networks:
       - proxy_net
