@@ -1,0 +1,27 @@
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: bot
+      DB_PASS: bot
+      DB_NAME: botdb_test
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: botdb_test
+      MYSQL_USER: bot
+      MYSQL_PASSWORD: bot
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ubot", "-pbot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
