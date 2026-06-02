@@ -3,7 +3,7 @@ set -euo pipefail
 
 COMPOSE_FILE=".ci/stack.yml"
 STACK_NAME="deck"
-ENV_PATH="/mnt/ssd/@docker/deck-agent/.env"
+ENV_PATH="/mnt/ssd/@docker/rebookondeck/.env"
 
 set -a
 source "$ENV_PATH"

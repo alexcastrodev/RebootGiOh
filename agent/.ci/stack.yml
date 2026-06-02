@@ -2,7 +2,7 @@ services:
   app:
     image: pifive:5001/deck-agent:latest
     environment:
-      - DB_HOST=db
+      - DB_HOST=${DB_USER}
       - DB_PORT=3306
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
