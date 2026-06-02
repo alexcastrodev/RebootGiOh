@@ -1,8 +1,6 @@
 services:
   app:
     image: pifive:5001/deck-agent:latest
-    ports:
-      - "4567:4567"
     environment:
       - DB_HOST=db
       - DB_PORT=3306
