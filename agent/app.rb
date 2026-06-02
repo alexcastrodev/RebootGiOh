@@ -12,8 +12,7 @@ configure do
   set :port, ENV.fetch('PORT', 4567)
   set :show_exceptions, false
 
-  allowed = ENV.fetch('ALLOWED_HOSTS', '').split(',').map(&:strip).reject(&:empty?)
-  set :protection, host_authorization: { permitted_hosts: allowed } unless allowed.empty?
+  set :protection, except: :host_authorization
 
   retries = 0
   begin
