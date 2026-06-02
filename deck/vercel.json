@@ -5,6 +5,6 @@
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+    { "source": "/deck/hide", "destination": "/hide.jpg" }
   ]
 }
