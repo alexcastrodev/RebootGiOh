@@ -12,9 +12,18 @@ configure do
   set :port, ENV.fetch('PORT', 4567)
   set :show_exceptions, false
 
-  ActiveRecord::MigrationContext.new(
-    File.join(__dir__, 'db/migrations')
-  ).migrate
+  retries = 0
+  begin
+    ActiveRecord::MigrationContext.new(
+      File.join(__dir__, 'db/migrations')
+    ).migrate
+  rescue ActiveRecord::DatabaseConnectionError, Mysql2::Error::ConnectionError => e
+    retries += 1
+    raise if retries > 10
+    $stderr.puts "DB not ready (attempt #{retries}/10): #{e.message}"
+    sleep 3
+    retry
+  end
 end
 
 error do
