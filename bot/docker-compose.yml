@@ -1,0 +1,9 @@
+services:
+  bot:
+    build: .
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_APP_ID: ${DISCORD_APP_ID}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID:-}
+      AGENT_URL: ${AGENT_URL:-http://agent:4567}
+    restart: unless-stopped
