@@ -16,4 +16,4 @@ RUN bundle install --without development test
 COPY . .
 
 EXPOSE 4567
-CMD ["bundle", "exec", "puma", "-b", "tcp://0.0.0.0:4567"]
+CMD ["bundle", "exec", "puma", "-b", "tcp://0.0.0.0:4567", "config.ru"]
