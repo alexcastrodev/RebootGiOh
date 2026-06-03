@@ -44,6 +44,11 @@ client.on(Events.InteractionCreate, async interaction => {
       const res = await fetch(`${AGENT_URL}/invoke/${discordUserId}/${cardId}`)
       const data = await res.json()
 
+      if (res.status === 404) {
+        await interaction.editReply(`Card **${cardId}** not found.`)
+        return
+      }
+
       if (!res.ok) {
         await interaction.editReply(`Error: ${data.error}`)
         return
