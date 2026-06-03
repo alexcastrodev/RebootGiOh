@@ -6,6 +6,7 @@ require 'uri'
 
 require_relative 'db/connection'
 require_relative 'models/node'
+require_relative 'logger'
 
 configure do
   set :bind, '0.0.0.0'
@@ -91,7 +92,10 @@ get '/invoke/:discord_user_id/:card_id' do
                           use_ssl: target.scheme == 'https',
                           open_timeout: 5,
                           read_timeout: 15) { |h| h.get(target.request_uri) }
-    halt 502, json(error: "node returned #{res.code}") unless res.is_a?(Net::HTTPSuccess)
+    unless res.is_a?(Net::HTTPSuccess)
+      AppLogger.error("[invoke] node returned #{res.code}: #{res.body.to_s[0, 200]}")
+      halt 502, json(error: "node returned #{res.code}")
+    end
 
     data     = JSON.parse(res.body)
     card_url = data['card_url']
