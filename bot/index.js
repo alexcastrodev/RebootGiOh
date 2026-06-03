@@ -58,6 +58,17 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
 
+  if (interaction.commandName === 'trap') {
+    await interaction.deferReply()
+
+    try {
+      const url = `${AGENT_URL}/trap`
+      await interaction.editReply({ files: [url] })
+    } catch (e) {
+      await interaction.editReply(`Failed to reach agent: ${e.message}`)
+    }
+  }
+
   if (interaction.commandName === 'invoke') {
     await interaction.deferReply()
     const cardId = interaction.options.getString('card')

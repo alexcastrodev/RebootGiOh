@@ -23,6 +23,10 @@ const commands = [
   new SlashCommandBuilder()
     .setName('revoke')
     .setDescription('Remove your registered server'),
+
+  new SlashCommandBuilder()
+    .setName('trap')
+    .setDescription('It\'s a trap!'),
 ].map(c => c.toJSON())
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN)
