@@ -78,10 +78,10 @@ def valid_image_url?(url)
   VALID_IMAGE_EXTENSIONS.include?(ext)
 end
 
-# GET /invoke/:discord_user_id/:node_name/:card_id
-# Finds the node owned by discord_user_id with the given name, calls {host}/deck/:card_id
-get '/invoke/:discord_user_id/:node_name/:card_id' do
-  node = Node.find_by(discord_user_id: params[:discord_user_id], name: params[:node_name])
+# GET /invoke/:discord_user_id/:card_id
+# Finds the node owned by discord_user_id, calls {host}/deck/:card_id
+get '/invoke/:discord_user_id/:card_id' do
+  node = Node.find_by(discord_user_id: params[:discord_user_id])
   halt 404, json(error: 'node not found') unless node
 
   target = URI.parse("#{node.host}/deck/#{params[:card_id]}")
