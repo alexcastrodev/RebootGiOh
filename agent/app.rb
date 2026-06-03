@@ -114,6 +114,33 @@ get '/invoke/:discord_user_id/:card_id' do
   end
 end
 
+# GET /search/:discord_user_id?q=<query>
+# Proxies to node's /deck/search?q=<query> and returns autocomplete suggestions
+get '/search/:discord_user_id' do
+  node = Node.find_by(discord_user_id: params[:discord_user_id])
+  halt 404, json(error: 'node not found') unless node
+
+  q      = params[:q].to_s.strip
+  target = URI.parse("#{node.host.strip_trailing_slash}/deck/search?q=#{URI.encode_uri_component(q)}")
+
+  begin
+    res = Net::HTTP.start(target.host, target.port,
+                          use_ssl: target.scheme == 'https',
+                          open_timeout: 5,
+                          read_timeout: 10) { |h| h.get(target.request_uri) }
+    halt 502, json(error: "node returned #{res.code}") unless res.is_a?(Net::HTTPSuccess)
+
+    data = JSON.parse(res.body)
+    json cards: (data['cards'] || [])
+  rescue JSON::ParserError
+    status 502
+    json error: 'node response is not valid JSON'
+  rescue => e
+    status 502
+    json error: "could not reach node: #{e.message}"
+  end
+end
+
 # GET /trap
 get '/trap' do
   send_file File.join(__dir__, 'assets', 'hide.jpg'), type: 'image/jpeg'

@@ -9,6 +9,16 @@ GET /deck/identifier
 }
 ```
 
+se quiser autocomplete para fazer o invoke, adiciona a seguinte rota:
+
+GET /deck?search=string
+
+```json
+{
+  "identifier": "string"
+}
+```
+
 Após instalar o Bot, você faz /register
 
 Coloca o Host do seu servidor feito em qualquer porcaria de linguagem que vc gosta
