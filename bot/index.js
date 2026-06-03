@@ -9,6 +9,21 @@ client.once(Events.ClientReady, c => {
 })
 
 client.on(Events.InteractionCreate, async interaction => {
+  if (interaction.isAutocomplete()) {
+    if (interaction.commandName === 'invoke') {
+      const query = interaction.options.getFocused()
+      const discordUserId = interaction.user.id
+      try {
+        const res = await fetch(`${AGENT_URL}/search/${discordUserId}?q=${encodeURIComponent(query)}`)
+        const data = res.ok ? await res.json() : { cards: [] }
+        await interaction.respond((data.cards || []).slice(0, 25))
+      } catch {
+        await interaction.respond([])
+      }
+    }
+    return
+  }
+
   if (!interaction.isChatInputCommand()) return
 
   const discordUserId = interaction.user.id

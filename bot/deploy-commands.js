@@ -18,6 +18,7 @@ const commands = [
       o.setName('card')
         .setDescription('Card identifier to fetch (e.g. exodia)')
         .setRequired(true)
+        .setAutocomplete(true)
     ),
 
   new SlashCommandBuilder()
