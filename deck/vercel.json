@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/deck", "destination": "/api/deck" },
     { "source": "/deck/:identifier", "destination": "/api/deck/[identifier]" }
   ]
 }
