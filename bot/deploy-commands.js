@@ -15,11 +15,6 @@ const commands = [
     .setName('invoke')
     .setDescription('Draw a card from your deck node')
     .addStringOption(o =>
-      o.setName('node')
-        .setDescription('Node name you registered (e.g. main)')
-        .setRequired(true)
-    )
-    .addStringOption(o =>
       o.setName('card')
         .setDescription('Card identifier to fetch (e.g. exodia)')
         .setRequired(true)

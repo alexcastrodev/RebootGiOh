@@ -38,11 +38,10 @@ client.on(Events.InteractionCreate, async interaction => {
 
   if (interaction.commandName === 'invoke') {
     await interaction.deferReply()
-    const nodeName = interaction.options.getString('node')
-    const cardId   = interaction.options.getString('card')
+    const cardId = interaction.options.getString('card')
 
     try {
-      const res = await fetch(`${AGENT_URL}/invoke/${discordUserId}/${nodeName}/${cardId}`)
+      const res = await fetch(`${AGENT_URL}/invoke/${discordUserId}/${cardId}`)
       const data = await res.json()
 
       if (!res.ok) {
