@@ -42,7 +42,6 @@ client.on(Events.InteractionCreate, async interaction => {
 
     try {
       const res = await fetch(`${AGENT_URL}/invoke/${discordUserId}/${cardId}`)
-      const data = await res.json()
 
       if (res.status === 404) {
         await interaction.editReply(`Card **${cardId}** not found.`)
@@ -50,9 +49,11 @@ client.on(Events.InteractionCreate, async interaction => {
       }
 
       if (!res.ok) {
-        await interaction.editReply(`Error: ${data.error}`)
+        await interaction.editReply(`Error: server returned ${res.status}`)
         return
       }
+
+      const data = await res.json()
 
       await interaction.editReply({ content: `**${cardId}**`, files: [data.card_url] })
     } catch (e) {
