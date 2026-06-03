@@ -33,16 +33,16 @@ error do
 end
 
 # POST /register
-# Body: { "host": "http://1.2.3.4:8080", "discord_user_id": "123456789", "name": "main" }
+# Body: { "host": "http://1.2.3.4:8080", "discord_user_id": "123456789" }
 post '/register' do
   payload         = JSON.parse(request.body.read) rescue {}
   host            = payload['host']&.strip
   discord_user_id = payload['discord_user_id']&.strip
-  name            = payload['name']&.strip
 
   halt 400, json(error: 'host is required')            if host.nil? || host.empty?
   halt 400, json(error: 'discord_user_id is required') if discord_user_id.nil? || discord_user_id.empty?
-  halt 400, json(error: 'name is required')            if name.nil? || name.empty?
+
+  name = discord_user_id
 
   halt 409, json(error: 'user already has a node — revoke it first') if Node.exists?(discord_user_id: discord_user_id)
 
