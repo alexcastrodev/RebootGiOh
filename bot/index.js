@@ -16,13 +16,12 @@ client.on(Events.InteractionCreate, async interaction => {
   if (interaction.commandName === 'register') {
     await interaction.deferReply({ ephemeral: true })
     const host = interaction.options.getString('host')
-    const name = interaction.options.getString('name')
 
     try {
       const res = await fetch(`${AGENT_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ host, name, discord_user_id: discordUserId }),
+        body: JSON.stringify({ host, discord_user_id: discordUserId }),
       })
       const data = await res.json()
 
@@ -31,9 +30,7 @@ client.on(Events.InteractionCreate, async interaction => {
         return
       }
 
-      await interaction.editReply(
-        `Node **${data.name}** registered.\n**Host:** ${data.host}`
-      )
+      await interaction.editReply(`Node registered.\n**Host:** ${data.host}`)
     } catch (e) {
       await interaction.editReply(`Failed to reach agent: ${e.message}`)
     }

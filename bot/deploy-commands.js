@@ -9,11 +9,7 @@ const commands = [
         .setDescription('Public URL or IP:port of the node (e.g. http://1.2.3.4:8080)')
         .setRequired(true)
     )
-    .addStringOption(o =>
-      o.setName('name')
-        .setDescription('Name for this node (e.g. main, backup) — unique per user')
-        .setRequired(true)
-    ),
+  ,
 
   new SlashCommandBuilder()
     .setName('invoke')
