@@ -36,6 +36,28 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
 
+  if (interaction.commandName === 'revoke') {
+    await interaction.deferReply({ flags: 64 })
+
+    try {
+      const res = await fetch(`${AGENT_URL}/revoke`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ discord_user_id: discordUserId }),
+      })
+      const data = await res.json()
+
+      if (!res.ok) {
+        await interaction.editReply(`Error: ${data.error}`)
+        return
+      }
+
+      await interaction.editReply('Server removed successfully.')
+    } catch (e) {
+      await interaction.editReply(`Failed to reach agent: ${e.message}`)
+    }
+  }
+
   if (interaction.commandName === 'invoke') {
     await interaction.deferReply()
     const cardId = interaction.options.getString('card')

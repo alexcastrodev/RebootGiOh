@@ -4,6 +4,7 @@ require 'json'
 require 'net/http'
 require 'uri'
 
+require_relative 'extensions/string'
 require_relative 'db/connection'
 require_relative 'models/node'
 require_relative 'logger'
@@ -37,7 +38,7 @@ end
 # Body: { "host": "http://1.2.3.4:8080", "discord_user_id": "123456789" }
 post '/register' do
   payload         = JSON.parse(request.body.read) rescue {}
-  host            = payload['host']&.strip
+  host            = payload['host']&.strip&.strip_trailing_slash
   discord_user_id = payload['discord_user_id']&.strip
 
   halt 400, json(error: 'host is required')            if host.nil? || host.empty?
@@ -85,7 +86,7 @@ get '/invoke/:discord_user_id/:card_id' do
   node = Node.find_by(discord_user_id: params[:discord_user_id])
   halt 404, json(error: 'node not found') unless node
 
-  target = URI.parse("#{node.host}/deck/#{params[:card_id]}")
+  target = URI.parse("#{node.host.strip_trailing_slash}/deck/#{params[:card_id]}")
 
   begin
     res = Net::HTTP.start(target.host, target.port,

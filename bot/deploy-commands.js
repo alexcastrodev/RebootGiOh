@@ -19,6 +19,10 @@ const commands = [
         .setDescription('Card identifier to fetch (e.g. exodia)')
         .setRequired(true)
     ),
+
+  new SlashCommandBuilder()
+    .setName('revoke')
+    .setDescription('Remove your registered server'),
 ].map(c => c.toJSON())
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN)
