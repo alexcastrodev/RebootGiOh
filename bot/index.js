@@ -63,7 +63,10 @@ client.on(Events.InteractionCreate, async interaction => {
 
     try {
       const url = `${AGENT_URL}/trap`
-      await interaction.editReply({ files: [url] })
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`Agent returned ${res.status}`)
+      const buffer = Buffer.from(await res.arrayBuffer())
+      await interaction.editReply({ files: [{ attachment: buffer, name: 'trap.jpg' }] })
     } catch (e) {
       await interaction.editReply(`Failed to reach agent: ${e.message}`)
     }
