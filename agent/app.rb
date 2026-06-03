@@ -85,13 +85,12 @@ get '/invoke/:discord_user_id/:card_id' do
   halt 404, json(error: 'node not found') unless node
 
   target = URI.parse("#{node.host}/deck/#{params[:card_id]}")
-  http   = Net::HTTP.new(target.host, target.port)
-  http.use_ssl      = target.scheme == 'https'
-  http.open_timeout = 5
-  http.read_timeout = 15
 
   begin
-    res = http.get(target.path)
+    res = Net::HTTP.start(target.host, target.port,
+                          use_ssl: target.scheme == 'https',
+                          open_timeout: 5,
+                          read_timeout: 15) { |h| h.get(target.request_uri) }
     halt 502, json(error: "node returned #{res.code}") unless res.is_a?(Net::HTTPSuccess)
 
     data     = JSON.parse(res.body)

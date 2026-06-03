@@ -7,3 +7,19 @@ Rake::TestTask.new(:test) do |t|
 end
 
 task default: :test
+
+task :nodes do
+  require_relative 'db/connection'
+  require_relative 'models/node'
+
+  nodes = Node.order(:created_at).all
+  if nodes.empty?
+    puts 'No nodes registered.'
+  else
+    puts '%-20s %-30s %s' % ['USER ID', 'HOST', 'LAST SEEN']
+    puts '-' * 75
+    nodes.each do |n|
+      puts '%-20s %-30s %s' % [n.discord_user_id, n.host, n.last_seen&.strftime('%Y-%m-%d %H:%M:%S') || '-']
+    end
+  end
+end
