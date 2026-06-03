@@ -5,7 +5,7 @@ describe 'DELETE /revoke' do
 
   describe 'revoking an existing node' do
     before do
-      Node.create!(discord_user_id: '111', name: 'main', host: 'http://1.2.3.4:8080')
+      Node.create!(discord_user_id: '111', name: '111', host: 'http://1.2.3.4:8080')
       delete_json '/revoke', discord_user_id: '111'
     end
 
@@ -22,7 +22,7 @@ describe 'DELETE /revoke' do
     end
 
     it 'allows re-registering after revoke' do
-      post_json '/register', host: 'http://5.5.5.5:8080', discord_user_id: '111', name: 'new'
+      post_json '/register', host: 'http://5.5.5.5:8080', discord_user_id: '111'
       _(last_response.status).must_equal 201
     end
   end
