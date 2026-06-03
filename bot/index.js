@@ -14,7 +14,7 @@ client.on(Events.InteractionCreate, async interaction => {
   const discordUserId = interaction.user.id
 
   if (interaction.commandName === 'register') {
-    await interaction.deferReply({ ephemeral: true })
+    await interaction.deferReply({ flags: 64 })
     const host = interaction.options.getString('host')
 
     try {
