@@ -11,5 +11,5 @@ export default function handler(req, res) {
         cards.push({ identifier });
     }
 
-    res.json({ cards });
+    res.json(cards);
 }
