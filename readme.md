@@ -1,7 +1,7 @@
 
 Implemente a API como você quiser, mas ela deve ser capaz de receber um JSON com a seguinte estrutura:
 
-GET /deck/identifier
+GET /deck/:identifier
 
 ```json
 {
