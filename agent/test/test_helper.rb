@@ -1,9 +1,6 @@
 ENV['RACK_ENV'] = 'test'
-ENV['DB_HOST']  = ENV.fetch('DB_HOST', '127.0.0.1')
-ENV['DB_PORT']  = ENV.fetch('DB_PORT', '3306')
-ENV['DB_USER']  = ENV.fetch('DB_USER', 'bot')
-ENV['DB_PASS']  = ENV.fetch('DB_PASS', 'bot')
-ENV['DB_NAME']  = ENV.fetch('DB_NAME', 'botdb_test')
+ENV['DB_PATH']  = ENV.fetch('DB_PATH', File.join(__dir__, 'tmp_test.sqlite3'))
+File.delete(ENV['DB_PATH']) if File.exist?(ENV['DB_PATH'])
 
 require 'minitest/autorun'
 require 'minitest/spec'

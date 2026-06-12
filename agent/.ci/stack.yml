@@ -2,31 +2,11 @@ services:
   app:
     image: pifive:5001/deck-agent:latest
     environment:
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=3306
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DB_NAME=${DB_NAME}
-    networks:
-      - proxy_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
-
-  db:
-    image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASS}
+      - DB_PATH=/data/deck_agent.sqlite3
     volumes:
       - type: bind
         source: /mnt/ssd/@docker/rebookondeck/db
-        target: /var/lib/mysql
+        target: /data
     networks:
       - proxy_net
     deploy:

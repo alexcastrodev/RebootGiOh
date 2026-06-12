@@ -16,18 +16,9 @@ configure do
 
   set :host_authorization, permitted_hosts: []
 
-  retries = 0
-  begin
-    ActiveRecord::MigrationContext.new(
-      File.join(__dir__, 'db/migrations')
-    ).migrate
-  rescue ActiveRecord::DatabaseConnectionError, Mysql2::Error::ConnectionError => e
-    retries += 1
-    raise if retries > 10
-    $stderr.puts "DB not ready (attempt #{retries}/10): #{e.message}"
-    sleep 3
-    retry
-  end
+  ActiveRecord::MigrationContext.new(
+    File.join(__dir__, 'db/migrations')
+  ).migrate
 end
 
 error do

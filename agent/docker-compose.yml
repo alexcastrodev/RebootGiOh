@@ -4,30 +4,9 @@ services:
     ports:
       - "4567:4567"
     environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: bot
-      DB_PASS: bot
-      DB_NAME: botdb
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
-
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: botdb
-      MYSQL_USER: bot
-      MYSQL_PASSWORD: bot
+      DB_PATH: /data/deck_agent.sqlite3
     volumes:
-      - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ubot", "-pbot"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - db_data:/data
     restart: unless-stopped
 
 volumes:
